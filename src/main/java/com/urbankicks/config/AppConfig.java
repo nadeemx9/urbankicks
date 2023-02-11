@@ -25,7 +25,7 @@ public class AppConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests()
-                .antMatchers("/cart").hasRole("ADMIN")
+                .antMatchers("/cart").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

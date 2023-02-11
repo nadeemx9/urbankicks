@@ -9,7 +9,6 @@ public class ImageService {
 
     public Byte[] getImageBytes(MultipartFile image)
     {
-
         return null;
     }
 }

@@ -147,7 +147,7 @@
 
                             <a href="contact" class="nav-item nav-link">Contact</a>
 
-                            <div class="nav-item dropdown">
+                            <div class="nav-item dropdown" sec:authorize="isAuthenticated==false">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">My Account <i
                                         class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu rounded-0 border-0 m-0">
@@ -159,19 +159,20 @@
                            
                         </div>
 
-                        <div class="navbar-nav ml-auto" >
-                            <a href="logout" class="nav-item nav-link" sec:authorize="isAuthenticated()">Logout</a>
-
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">My Account <i
-                                        class="fa fa-angle-down mt-1"></i></a>
+                        <div class="navbar-nav ml-auto">
+                            <div class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Utilities<i
+                                        class="fa fa-angle-down mt-1 mx-1"></i></a>
                                 <div class="dropdown-menu rounded-0 border-0 m-0">
-                                    <a href="login" class="dropdown-item">Login</a>
-                                    <a th:href="@{signup}" class="dropdown-item">SignUp</a>
+                                    <a href="add-product" class="dropdown-item">Add Product</a>
+                                    <a href="#" class="dropdown-item">Add Category</a>
 
                                 </div>
                             </div>
-                            <a th:href="@{cart}" class="btn px-0 mx-3">
+                            <a href="#" class="nav-item nav-link" sec:authorize="isAuthenticated()">Hello, <b sec:authentication="name"></b></b></a>
+                            <a href="logout" class="nav-item nav-link" sec:authorize="isAuthenticated()">Logout</a>
+
+                            <a th:href="@{cart}" class="btn px-0 mx-3" sec:authorize="!hasRole('ADMIN')">
                             	
                                 <i class="fas fa-shopping-cart text-primary"></i>
                                 <span class="badge text-secondary border border-secondary rounded-circle"
