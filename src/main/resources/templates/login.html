@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}"></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" th:href="@{/login_template/css/style.css}">
+    <link rel="icon" th:href="@{/MyImages/sneaker.png}" type="image/icon type">
+
+</head>
+
+<body>
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">SPRING SECURITY LOGIN</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-7 col-lg-5">
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span class="fa fa-user-o"></span>
+                        </div>
+                        <h3 class="text-center mb-4">LOGIN</h3>
+                        <!-- ALERT IF INVALID USERNAME OR PASSWORD -->
+                        <div class="alert alert-danger text-center" th:if="${param.error}" role="alert">
+                            Invalid Usename or Password.
+                        </div>
+
+                        <!-- ALERT IF SUCCESSFULLY LOGGED OUT -->
+                        <div class="alert alert-info text-center" th:if="${param.logout}" role="alert">
+                            Your have been successfully logged out.
+                        </div>
+                        <form th:action="@{login}" class="login-form" method="post" th:object="${user}">
+                            <!-- 'th:action' & 'method=post' IS MUST FOR SECURITY LOGIN -->
+                            <div class="form-group">
+                                <input type="text" class="form-control rounded-left" name="username" 
+                                    placeholder="Username" th:field="${user.username}">
+                            </div>
+                            <div class="form-group d-flex">
+                                <input type="password" class="form-control rounded-left" name="password"
+                                    placeholder="Password" th:field="${user.password}">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit"
+                                    class="form-control btn btn-primary rounded submit px-3">Login</button>
+                            </div>
+                            <div class="form-group d-md-flex">
+                                <div class="w-50">
+                                    <label class="checkbox-wrap checkbox-primary">Remember Me
+                                        <input type="checkbox" checked>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="w-50 text-md-right">
+                                    <a href="#">Forgot Password</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script th:src="@{/login_template/js/jquery.min.js}" src=""></script>
+    <script th:src="@{/login_template/js/popper.js}"></script>
+    <script th:src="@{/login_template/js/bootstrap.min.js}"></script>
+    <script th:src="@{/login_template/js/main.js}"></script>
+
+</body>
+
+</html>

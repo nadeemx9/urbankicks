@@ -31,6 +31,7 @@ public class Product {
     private Brand brand;
 
     private int size;
+    private String gender;
     private int quantity;
     private double price;
     
@@ -131,12 +132,13 @@ public class Product {
         this.img3 = img3;
     }
 
-    @Override
-    public String toString() {
-        return "Product [prod_id=" + prod_id + ", prod_name=" + prod_name + ", description=" + description
-                + ", category=" + category + ", brand=" + brand + ", size=" + size + ", quantity=" + quantity
-                + ", price=" + price + ", img1=" + Arrays.toString(img1) + ", img2=" + Arrays.toString(img2) + ", img3="
-                + Arrays.toString(img3) + "]";
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
     
     

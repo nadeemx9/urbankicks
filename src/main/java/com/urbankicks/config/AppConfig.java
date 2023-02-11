@@ -28,7 +28,7 @@ public class AppConfig {
                 .antMatchers("/cart").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login")
                 .and()
                 .logout().logoutSuccessUrl("/index")
                 .and()
