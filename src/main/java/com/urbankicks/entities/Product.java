@@ -1,6 +1,5 @@
 package com.urbankicks.entities;
 
-import java.util.Arrays;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

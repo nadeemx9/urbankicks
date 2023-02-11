@@ -1,6 +1,7 @@
 package com.urbankicks.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
+import com.urbankicks.service.BrandService;
+import com.urbankicks.service.CategoryService;
+import com.urbankicks.service.ProductService;
 import com.urbankicks.service.UserService;
 
 
@@ -25,6 +30,16 @@ public class MyController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private CategoryService categoryService;
+
 
     @GetMapping("/index")
     public String index(Model model)
@@ -90,8 +105,12 @@ public class MyController {
     }
 
     @RequestMapping("/add-product")
-    public String addProduct(User user)
+    public String addProduct(@ModelAttribute("product")Product product, Model model)
     {
+        model.addAttribute("title", "UrbanKicks - Add Products");
+        model.addAttribute("brands", brandService.findAllBrands());
+        model.addAttribute("categories", categoryService.findAllCategories());
+
         return "add-product";
     }
 

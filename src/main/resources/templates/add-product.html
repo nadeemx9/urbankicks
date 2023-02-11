@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org"
+    th:replace="base::Layout(~{::section})">
 
 <head>
     <meta charset="utf-8">
@@ -13,58 +14,116 @@
 <body>
 
     <section>
-        <div class="container">
-            <div class="mx-5">
-                <form th:action="add-product" method="post" th:object="${product}">
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPassword4">Password</label>
-                        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAddress">Address</label>
-                      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAddress2">Address 2</label>
-                      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputCity">City</label>
-                        <input type="text" class="form-control" id="inputCity">
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label for="inputState">State</label>
-                        <select id="inputState" class="form-control">
-                          <option selected>Choose...</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                          Check me out
-                        </label>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Sign in</button>
-                  </form>
+        <div class="container d-flex justify-content-center">
+            <div class="card d" style="width: 40rem;">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Add Product</h5>
+                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a> -->
+                        <form th:action="add-product" method="post" th:object="${product}">
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group col-8">
+                                    <div class="text-left">
+                                        <label for="prod_name">Product Name</label>
+                                    </div>
+                                    <input type="prod_name" class="form-control" id="prod_name" placeholder=""
+                                        th:field="${product.prod_name}">
+                                </div>
+                            </div>
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group col-md-8">
+                                    <div class="text-left">
+                                        <label for="description">DESCRIPTION</label>
+                                    </div>
+                                    <textarea type="text" class="form-control col-md-8S" id="description"
+                                        th:field="${product.description}"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <label for="brand">BRAND</label>
+                                    <select id="brand" class="form-control" th:field="${product.brand}">
+                                        <option selected th:value="${''}" th:text="${'SELECT BRAND'}"></option>
+                                        <option th:each="brand:${brands}" th:text="${brand.brand_name}" th:value="${brand.brand_name}"></option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="category">CATEGORY</label>
+                                    <select id="category" class="form-control" th:field="${product.category}">
+                                        <option selected th:value="${''}" th:text="${'SELECT CATEGORY'}"></option>
+                                        <option th:each="category:${categories}" th:text="${category.category_name}" th:value="${category.category_name}"></option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <label for="category">SIZE (optional)</label>
+                                    <select id="category" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+
+                                    </select>
+
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="category">GENDER</label>
+                                    <select id="category" class="form-control">
+                                        <option selected>Choose...</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <label for="quantity">QUANTITY</label>
+                                    <input type="text" class="form-control" id="quantity"
+                                        th:field="${product.quantity}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="price">PRICE</label>
+                                    <input type="text" class="form-control" id="price" th:field="${product.price}">
+                                </div>
+                            </div>
+
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="custom-file col-md-8 mb-2">
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Upload Image 1</label>
+                                </div>
+                                <div class="custom-file col-md-8 mb-2">
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Upload Image 2</label>
+                                </div>
+                                <div class="custom-file col-md-8 mb-2">
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <label class="custom-file-label" for="customFile">Upload Image 3</label>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row d-flex justify-content-center">
+                                <button type="submit" class="btn btn-outline-primary my-3 col-md-8">Add Product</button>
+                            </div>
+                        </form>
+                </div>
             </div>
-          
+
         </div>
-        
+
     </section>
 
 </body>

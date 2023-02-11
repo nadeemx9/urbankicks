@@ -6,4 +6,5 @@ import com.urbankicks.entities.Product;
 
 public interface ProductRepository extends CrudRepository<Product, Integer> {
     
+
 }
