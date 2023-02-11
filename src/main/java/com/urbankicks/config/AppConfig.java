@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
@@ -22,12 +23,14 @@ public class AppConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
                 .authorizeHttpRequests()
                 .antMatchers("/cart").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
+                .and()
+                .logout().logoutSuccessUrl("/index")
                 .and()
                 .authenticationProvider(getDaoAuthenticationProvider());
 
@@ -43,6 +46,5 @@ public class AppConfig {
 
         return authenticationProvider;
     }
-
 
 }

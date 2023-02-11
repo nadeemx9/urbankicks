@@ -19,7 +19,7 @@ public class User {
     private String password;
     private String phone;
     private String address;
-    private String role = "user";
+    private String role = "ROLE_USER";
     private boolean enabled = true;
 
     public int getUser_id() {
