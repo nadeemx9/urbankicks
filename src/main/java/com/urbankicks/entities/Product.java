@@ -1,6 +1,9 @@
 package com.urbankicks.entities;
 
 
+import java.util.Arrays;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,18 +32,21 @@ public class Product {
     @JoinColumn(name = "brand_name")
     private Brand brand;
 
-    private int size;
+    private Integer size;
     private String gender;
-    private int quantity;
-    private double price;
+    private Integer quantity;
+    private Double price;
     
-    @Lob
+    @Lob()
+    @Column(columnDefinition="LONGBLOB")
     private byte[] img1;
 
     @Lob
+    @Column(columnDefinition="LONGBLOB")
     private byte[] img2;
 
     @Lob
+    @Column(columnDefinition="LONGBLOB")
     private byte[] img3;
 
     public int getProd_id() {
@@ -83,27 +89,35 @@ public class Product {
         this.brand = brand;
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
-    public int getQuantity() {
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -131,14 +145,15 @@ public class Product {
         this.img3 = img3;
     }
 
-
-    public String getGender() {
-        return gender;
+    @Override
+    public String toString() {
+        return "Product [prod_id=" + prod_id + ", prod_name=" + prod_name + ", description=" + description
+                + ", category=" + category + ", brand=" + brand + ", size=" + size + ", gender=" + gender
+                + ", quantity=" + quantity + ", price=" + price + ", img1=" + Arrays.toString(img1) + ", img2="
+                + Arrays.toString(img2) + ", img3=" + Arrays.toString(img3) + "]";
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-    
+
+        
     
 }

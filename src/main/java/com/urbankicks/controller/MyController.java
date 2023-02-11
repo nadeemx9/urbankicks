@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
@@ -130,5 +131,12 @@ public class MyController {
         }
 
         return "redirect:index";
+    }
+
+    @PostMapping("/processAddProduct")
+    public String processAddProduct(@ModelAttribute("product")Product product)
+    {   
+        System.out.println(product);
+        return "add-product";
     }
 }
