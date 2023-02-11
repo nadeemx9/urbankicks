@@ -1,0 +1,19 @@
+body{
+    background-color: #e2e2e2;
+}
+.primary-color{
+    background-color: hsl(34, 89%, 78%);
+}
+
+.banner{
+    width: 100%;
+    /* background: black; */
+    height: 93vh;
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)) ,url('../images/banner.jpg');
+    background-size: cover;
+}
+.registerCard{
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 10px;
+}
