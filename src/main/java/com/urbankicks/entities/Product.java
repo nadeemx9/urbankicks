@@ -144,6 +144,12 @@ public class Product {
     public void setImg3(byte[] img3) {
         this.img3 = img3;
     }
+  
+    public String getBrandName()
+    {
+        return brand.getBrand_name();
+    }
+    
 
     @Override
     public String toString() {

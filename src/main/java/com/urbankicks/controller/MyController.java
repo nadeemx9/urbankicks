@@ -1,6 +1,7 @@
 package com.urbankicks.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
@@ -53,7 +55,6 @@ public class MyController {
         model.addAttribute("title", "Cart");
 
 
-        System.out.println(principal.getName());
         return "cart";
     }
 
@@ -79,9 +80,14 @@ public class MyController {
         return "detail";
     }
     @GetMapping("/shop")
-    public String shop(Model model)
+    public String shop(Model model, Product product)
     {
         model.addAttribute("title", "Shop");
+        
+        List<Product>products = productService.findAllProducts();
+
+        model.addAttribute("products", products);
+
 
         return "shop";
     }
@@ -136,7 +142,15 @@ public class MyController {
     {   
 
         productService.addProduct(product);
-        System.out.println(product);
         return "add-product";
+    }
+
+    @RequestMapping("/productDetail")
+    public String productDetail(@RequestParam("id")int id, Model model)
+    {
+        Product product = productService.findById(id);
+        model.addAttribute("product", product);
+    
+        return "detail";
     }
 }

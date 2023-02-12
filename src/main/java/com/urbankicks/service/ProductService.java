@@ -19,6 +19,11 @@ public class ProductService {
         return products;
     }
 
+    public Product findById(int id)
+    {
+        return (Product)productRepository.findById(id).get();
+    }
+
     public void addProduct(Product product)
     {   
         productRepository.save(product);

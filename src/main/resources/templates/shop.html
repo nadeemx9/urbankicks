@@ -200,18 +200,17 @@
                             </div>
                         </div>
                     </div> -->
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-3">
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-3" th:each="product:${products}">
                             <div class="product-item bg-light mb-3">
                                 <div class="product-img position-relative overflow-hidden">
-                                    <a href=""><img class="img-fluid" src="MyImages/product-1.jpg" style="height:350px; width: 350px;" alt=""></a>
+                                    <a th:href="@{/productDetail(id=${product.prod_id})}"><img class="img-fluid" src="MyImages/noimage.png" style="height:350px; width: 350px;" alt=""></a>
                                 </div>
                                 <div class="text-center py-4">
-                                    <a class="h4 text-decoration-none text-truncate" href="">Product Name</a> <br>
-                                    <a class="h6 text-decoration-none text-wrap" href="">Lorem ipsum dolor sit amet
-                                        consectetur adipisicing elit.</a>
+                                    <a class="h4 text-decoration-none text-wrap" href="" th:text="${product.brandName}"></a> <br>
+                                    <a class="h6 text-decoration-none text-wrap" href="" th:text="${product.prod_name}"></a>
 
                                     <div class="d-flex align-items-center justify-content-center mt-4">
-                                        <h5>$123.00</h5>
+                                        <h5 th:text="${'$'+product.price}"></h5>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
                                         <small class="fa fa-star text-primary mr-1"></small>
@@ -224,7 +223,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-3">
+                        <!-- <div class="col-lg-4 col-md-6 col-sm-6 pb-3">
                             <div class="product-item bg-light mb-3">
                                 <div class="product-img position-relative overflow-hidden">
                                     <a href=""><img class="img-fluid" src="img/product-2.jpg" style="height:350px; width: 350px;" alt=""></a>
@@ -319,7 +318,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <!-- DEFAULT PRODUCT (UN-MODIFIED) -->
                         <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
