@@ -134,6 +134,8 @@ public class MyController {
     @PostMapping("/processAddProduct")
     public String processAddProduct(@ModelAttribute("product")Product product)
     {   
+
+        productService.addProduct(product);
         System.out.println(product);
         return "add-product";
     }
