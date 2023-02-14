@@ -203,7 +203,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6 pb-3" th:each="product:${products}">
                             <div class="product-item bg-light mb-3">
                                 <div class="product-img position-relative overflow-hidden">
-                                    <a th:href="@{/productDetail(id=${product.prod_id})}"><img class="img-fluid" src="MyImages/noimage.png" style="height:350px; width: 350px;" alt=""></a>
+                                    <a th:href="@{/productDetail(id=${product.prod_id})}"><img class="img-fluid" th:src="*{'data:image/*;base64,'+{product.img1}}" style="height:350px; width: 350px;" alt=""></a> <!--th:src="@{'data:image/*;base64,' + ${img1}}"-->
                                 </div>
                                 <div class="text-center py-4">
                                     <a class="h4 text-decoration-none text-wrap" href="" th:text="${product.brandName}"></a> <br>

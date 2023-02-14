@@ -1,8 +1,13 @@
 package com.urbankicks.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,7 +22,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.urbankicks.entities.Brand;
+import com.urbankicks.entities.Category;
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
@@ -72,13 +80,6 @@ public class MyController {
 
         return "contact";
     }
-    @GetMapping("/detail")
-    public String detail(Model model)
-    {
-        model.addAttribute("title", "Detail");
-
-        return "detail";
-    }
     @GetMapping("/shop")
     public String shop(Model model, Product product)
     {
@@ -110,11 +111,12 @@ public class MyController {
     }
 
     @RequestMapping("/add-product")
-    public String addProduct(@ModelAttribute("product")Product product, Model model)
+    public String addProduct(Model model)
     {
         model.addAttribute("title", "UrbanKicks - Add Products");
         model.addAttribute("brands", brandService.findAllBrands());
         model.addAttribute("categories", categoryService.findAllCategories());
+        model.addAttribute("product", new Product());
 
         return "add-product";
     }
@@ -138,18 +140,42 @@ public class MyController {
     }
 
     @PostMapping("/processAddProduct")
-    public String processAddProduct(@ModelAttribute("product")Product product)
+    public String processAddProduct(@RequestParam("prod_name")String prod_name,
+                                    @RequestParam("description")String description,
+                                    @RequestParam("category")String category,
+                                    @RequestParam("brand")String brand,
+                                    @RequestParam("size")String size,
+                                    @RequestParam("gender")String gender,
+                                    @RequestParam("quantity")String quantiy,
+                                    @RequestParam("price")String price,
+                                    @RequestParam("img1")MultipartFile img1,
+                                    @RequestParam("img2")MultipartFile img2,
+                                    @RequestParam("img3")MultipartFile img3) throws IOException
     {   
+        Product product = new Product();
+        product.setProd_name(prod_name);
+        product.setDescription(description);
+        product.setBrand(new Brand(brand));
+        product.setCategory(new Category(category));
+        product.setSize(Integer.parseInt(size));
+        product.setGender(gender);
+        product.setQuantity(Integer.parseInt(quantiy));
+        product.setPrice(Double.parseDouble(price));
+        product.setImg1(Base64.getEncoder().encodeToString(img1.getBytes()));
+        product.setImg2(Base64.getEncoder().encodeToString(img2.getBytes()));
+        product.setImg3(Base64.getEncoder().encodeToString(img3.getBytes()));
 
         productService.addProduct(product);
-        return "add-product";
+
+        return "redirect:/add-product";
     }
 
     @RequestMapping("/productDetail")
-    public String productDetail(@RequestParam("id")int id, Model model)
+    public String productDetail(@RequestParam("id")int id, Model model) throws IOException
     {
         Product product = productService.findById(id);
         model.addAttribute("product", product);
+        model.addAttribute("title", "Detail");
     
         return "detail";
     }

@@ -9,6 +9,14 @@ public class Brand {
     private String brand_name;
 
     private int brand_id;
+
+
+    public Brand(){}
+
+    public Brand(String brand_name)
+    {
+        this.brand_name=brand_name;
+    }
     public String getBrand_name() {
         return brand_name;
     }
