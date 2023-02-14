@@ -1,13 +1,10 @@
 package com.urbankicks.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -139,6 +136,7 @@ public class MyController {
         return "redirect:index";
     }
 
+
     @PostMapping("/processAddProduct")
     public String processAddProduct(@RequestParam("prod_name")String prod_name,
                                     @RequestParam("description")String description,
@@ -165,7 +163,7 @@ public class MyController {
         product.setImg2(Base64.getEncoder().encodeToString(img2.getBytes()));
         product.setImg3(Base64.getEncoder().encodeToString(img3.getBytes()));
 
-        productService.addProduct(product);
+        productService.addProduct(product);         //Image will not insert directly through phpmyadmin
 
         return "redirect:/add-product";
     }
@@ -179,4 +177,12 @@ public class MyController {
     
         return "detail";
     }
-}
+
+    @RequestMapping("/processAddToCart")
+    public String processAddToCart(@RequestParam("prod_id")int id, Model model)
+    {
+        Product product = productService.findById(id);
+        System.out.println(product.getProd_name());
+        return "cart";
+    }
+}   

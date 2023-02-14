@@ -1,7 +1,6 @@
 package com.urbankicks.entities;
 
 
-import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

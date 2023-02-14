@@ -22,7 +22,7 @@
                   <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                   <a href="#" class="card-link">Card link</a>
                   <a href="#" class="card-link">Another link</a> -->
-                        <form th:action="@{processAddProduct}" method="POST" enctype="multipart/form-data" th:object="${product}">
+                        <form th:action="processAddProduct" method="POST" th:object="${product}" enctype="multipart/form-data"> <!---->
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-8">
                                     <div class="text-left">
@@ -36,13 +36,13 @@
                                     <div class="text-left">
                                         <label for="description">DESCRIPTION</label>
                                     </div>
-                                    <textarea type="text" class="form-control col-md-8S" id="description" name="description"></textarea>
+                                    <textarea type="text" class="form-control col-md-8S" id="description" name="description" th:field="${product.description}"></textarea>
                                 </div>
                             </div>
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-md-4">
                                     <label for="brand">BRAND</label>
-                                    <select id="brand" class="form-control" name="brand">
+                                    <select id="brand" class="form-control" name="brand" th:field="${product.brand}">
                                         <option selected value="" text="SELECT BRAND"></option>
                                         <option th:each="brand:${brands}" th:text="${brand.brand_name}" th:value="${brand.brand_name}"></option>
                                     </select>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="category">CATEGORY</label>
-                                    <select id="category" class="form-control" name="category">
+                                    <select id="category" class="form-control" name="category" th:field="${product.category}">
                                         <option selected value="" text="SELECT CATEGORY"></option>
                                         <option th:each="category:${categories}" th:text="${category.category_name}" th:value="${category.category_name}"></option>
                                     </select>
@@ -60,7 +60,7 @@
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-md-4">
                                     <label for="size">SIZE (optional)</label>
-                                    <select id="size" class="form-control" name="size">
+                                    <select id="size" class="form-control" name="size"th:field="${product.size}"> 
                                         <option selected th:value="${0}">SELECT SIZE</option>
                                         <option th:value="${6}">6</option>
                                         <option th:value="${7}">7</option>
@@ -74,8 +74,8 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="gender">GENDER</label>
-                                    <select id="gender" class="form-control" name="gender">
-                                        <option selected>SELECT GENDER</option>
+                                    <select id="gender" class="form-control" name="gender" th:field="${product.gender}">
+                                        <option selected th:value="${''}">SELECT GENDER</option>
                                         <option th:value="${'Male'}">Male</option>
                                         <option th:value="${'Female'}">Female</option>
 
@@ -87,25 +87,25 @@
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-md-4">
                                     <label for="quantity">QUANTITY</label>
-                                    <input type="text" class="form-control" id="quantity" name="quantity">
+                                    <input type="text" class="form-control" id="quantity" name="quantity" th:field="${product.quantity}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="price">PRICE</label>
-                                    <input type="text" class="form-control" id="price" name="price">
+                                    <input type="text" class="form-control" id="price" name="price" th:field="${product.price}">
                                 </div>
                             </div>
 
                             <div class="form-row d-flex justify-content-center">
                                 <div class="custom-file col-md-8 mb-2">
-                                    <input type="file" class="custom-file-input" name="img1" id="img1" accept="image/*">
+                                    <input type="file" class="custom-file-input" id="img1" accept="image/*" name="img1" th:field="${product.img1}">
                                     <label class="custom-file-label" for="img1">Upload Image 1</label>
                                 </div>
                                 <div class="custom-file col-md-8 mb-2">
-                                    <input type="file" class="custom-file-input" id="img2" accept="image/*" name="img2">
+                                    <input type="file" class="custom-file-input" id="img2" accept="image/*" name="img2" th:field="${product.img2}">
                                     <label class="custom-file-label" for="img2">Upload Image 2</label>
                                 </div>
                                 <div class="custom-file col-md-8 mb-2">
-                                    <input type="file" class="custom-file-input" id="img3" accept="image/*" name="img3">
+                                    <input type="file" class="custom-file-input" id="img3" accept="image/*" name="img3" th:field="${product.img3}">
                                     <label class="custom-file-label" for="img3">Upload Image 3</label>
                                 </div>
                             </div>
