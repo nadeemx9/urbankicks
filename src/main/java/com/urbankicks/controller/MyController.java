@@ -68,7 +68,6 @@ public class MyController {
         int user_id = userDetails.getId();
         List<CartItem> cartItems = cartItemService.getCartItemsByUser(user_id);
 
-        System.out.println(user_id);
         model.addAttribute("title", "Cart");
         model.addAttribute("cartItems", cartItems);
 
@@ -192,23 +191,19 @@ public class MyController {
     }
 
     @RequestMapping("/processAddToCart")
-    public String processAddToCart(@RequestParam("prod_id")int prod_id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public String processAddToCart(@RequestParam("prod_id")int prod_id, @RequestParam("size") String size ,@RequestParam("quantity")String quantity ,Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Product product = productService.findById(prod_id);
-
+        product.setSize(Integer.parseInt(size));
+        product.setQuantity(Integer.parseInt(quantity));
         User user = userService.getUserById(userDetails.getId());
 
-        // System.out.println(product.getProd_name());
-        // System.out.println(user.getFirst_name());
 
         CartItem cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setUser(user);
 
         cartItemService.addToCart(cartItem);
-
-        
-
 
         return "redirect:/cart";
     }

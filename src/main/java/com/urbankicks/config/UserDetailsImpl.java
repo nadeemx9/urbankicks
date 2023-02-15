@@ -62,4 +62,9 @@ public class UserDetailsImpl implements UserDetails {
         return user.getUser_id();
     }
 
+    public void setId()
+    {
+        this.user.setUser_id(user.getUser_id());
+    }
+
 }
