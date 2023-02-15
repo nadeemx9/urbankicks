@@ -50,14 +50,5 @@ public class CartItem {
     public String toString() {
         return "CartItem [cart_item_id=" + cart_item_id + ", user=" + user + ", product=" + product + "]";
     }
-
-    public String getProd_name()
-    {
-        return this.product.getProd_name();
-    }
-    public String getImg1()
-    {
-        return this.product.getImg1();
-    }
     
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org"
+    th:replace="base::Layout(~{::section})">
 
 <head>
     <meta charset="utf-8">
@@ -13,7 +14,7 @@
 <body>
 
     <section>
-	
+
         <!-- Breadcrumb Start -->
         <div class="container-fluid">
             <div class="row px-xl-5">
@@ -44,9 +45,35 @@
                             </tr>
                         </thead>
                         <tbody class="align-middle">
-                            <tr th:each="cartItem : ${cartItems}"> <!---->
-                                <td class="align-middle" th:text="${cartItem.Prod_name}"><img th:src="*{'data:image/*;base64,'+{cartItem.img2}}" alt="" style="width: 50px;">
-                                    Product Name</td>
+                            <tr th:each="cartItem:${cartItems}">
+                                <td class="align-middle"><img th:src="*{'data:image/*;base64,'+{cartItem.product.img1}}" alt=""
+                                        style="width: 100px; height: 100px;" th:text="${cartItem.product.prod_name}"></td>
+                                <td class="align-middle" th:text="${cartItem.product.price}"></td>
+                                <td class="align-middle">
+                                    <div class="input-group quantity mx-auto" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-minus">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text"
+                                            class="form-control form-control-sm bg-secondary border-0 text-center"
+                                            value="1">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-sm btn-primary btn-plus">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">$150</td>
+                                <td class="align-middle"><button class="btn btn-sm btn-danger"><i
+                                            class="fa fa-times"></i></button></td>
+                            </tr>
+                            <!-- DEFAULT CART ITEM -->
+                            <tr>
+                                <td class="align-middle"><img src="img/product-1.jpg" alt=""
+                                        style="width: 100px; height: 100px;"> DEFAULT CART ITEM</td>
                                 <td class="align-middle">$150</td>
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -66,10 +93,11 @@
                                     </div>
                                 </td>
                                 <td class="align-middle">$150</td>
-                                <td class="align-middle"><a th:href="@{/removeItem(id=${cartItem.cart_item_id})}" class="btn btn-sm btn-danger"><i
-                                            class="fa fa-times"></i></a></td>
+                                <td class="align-middle"><button class="btn btn-sm btn-danger"><i
+                                            class="fa fa-times"></i></button></td>
                             </tr>
-                            
+
+
                         </tbody>
                     </table>
                 </div>
