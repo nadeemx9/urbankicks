@@ -62,7 +62,7 @@ public class MyController {
         return "index";
     }
     @GetMapping("/cart")
-    public String cart(Model model, Principal principal, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public String cart(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
 
         int user_id = userDetails.getId();
