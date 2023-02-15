@@ -212,4 +212,12 @@ public class MyController {
 
         return "redirect:/cart";
     }
+
+    @RequestMapping("/removeItem")
+    public String removeItem(@RequestParam("id")int cart_item_id)
+    {
+        CartItem cartItem =(CartItem) cartItemService.findById(cart_item_id);
+        cartItemService.removeFromCart(cartItem);
+        return "redirect:/cart";
+    }
 }   

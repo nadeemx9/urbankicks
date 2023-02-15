@@ -24,5 +24,15 @@ public class CartItemService {
         return cartItems;
     }
 
+    public CartItem findById(int id)
+    {
+        CartItem cartItem = cartItemRepository.findById(id);
+        return cartItem;
+    }
+    public void removeFromCart(CartItem cartItem)
+    {
+        cartItemRepository.delete(cartItem);
+    }
+
     
 }
