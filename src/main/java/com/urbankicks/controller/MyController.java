@@ -73,7 +73,6 @@ public class MyController {
         model.addAttribute("cartItems", cartItems);
 
         
-
         return "cart";
     }
 
