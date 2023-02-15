@@ -23,5 +23,6 @@ public class UserService {
     {
         return bCryptPasswordEncoder.encode(password);
     }
+  
     
 }

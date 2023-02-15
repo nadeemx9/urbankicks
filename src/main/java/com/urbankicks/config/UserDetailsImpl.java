@@ -12,7 +12,7 @@ import com.urbankicks.entities.User;
 public class UserDetailsImpl implements UserDetails {
 
     private User user;
-    
+
     public User getUser() {
         return user;
     }
@@ -56,6 +56,10 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public int getId() {
+        return user.getUser_id();
     }
 
 }

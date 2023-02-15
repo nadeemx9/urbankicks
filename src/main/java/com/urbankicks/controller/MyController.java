@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.urbankicks.config.UserDetailsImpl;
 import com.urbankicks.entities.Brand;
 import com.urbankicks.entities.Category;
 import com.urbankicks.entities.Product;
@@ -55,10 +57,14 @@ public class MyController {
         return "index";
     }
     @GetMapping("/cart")
-    public String cart(Model model, Principal principal)
+    public String cart(Model model, Principal principal, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        model.addAttribute("title", "Cart");
+    
+        int id = userDetails.getId();
 
+
+        model.addAttribute("title", "Cart");
+        
 
         return "cart";
     }
@@ -179,10 +185,12 @@ public class MyController {
     }
 
     @RequestMapping("/processAddToCart")
-    public String processAddToCart(@RequestParam("prod_id")int id, Model model)
+    public String processAddToCart(@RequestParam("prod_id")int id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Product product = productService.findById(id);
         System.out.println(product.getProd_name());
+        int user_id = userDetails.getId();
+        System.out.println(user_id);
         return "cart";
     }
 }   
