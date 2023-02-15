@@ -31,6 +31,14 @@ public class CartItem {
         this.cart_item_id = cart_item_id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -41,8 +49,16 @@ public class CartItem {
 
     @Override
     public String toString() {
-        return "CartItem [cart_item_id=" + cart_item_id + ", product=" + product + "]";
+        return "CartItem [cart_item_id=" + cart_item_id + ", user=" + user + ", product=" + product + "]";
     }
 
+    public String getProd_name()
+    {
+        return this.product.getProd_name();
+    }
+    public String getImg1()
+    {
+        return this.product.getImg1();
+    }
     
 }

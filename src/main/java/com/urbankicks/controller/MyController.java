@@ -24,10 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.urbankicks.config.UserDetailsImpl;
 import com.urbankicks.entities.Brand;
+import com.urbankicks.entities.CartItem;
 import com.urbankicks.entities.Category;
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
+import com.urbankicks.service.CartItemService;
 import com.urbankicks.service.CategoryService;
 import com.urbankicks.service.ProductService;
 import com.urbankicks.service.UserService;
@@ -48,6 +50,9 @@ public class MyController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    CartItemService cartItemService;
+
 
     @GetMapping("/index")
     public String index(Model model)
@@ -59,11 +64,14 @@ public class MyController {
     @GetMapping("/cart")
     public String cart(Model model, Principal principal, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-    
-        int id = userDetails.getId();
 
+        int user_id = userDetails.getId();
+        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user_id);
 
+        System.out.println(user_id);
         model.addAttribute("title", "Cart");
+        model.addAttribute("cartItems", cartItems);
+
         
 
         return "cart";
@@ -185,12 +193,24 @@ public class MyController {
     }
 
     @RequestMapping("/processAddToCart")
-    public String processAddToCart(@RequestParam("prod_id")int id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    public String processAddToCart(@RequestParam("prod_id")int prod_id, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        Product product = productService.findById(id);
-        System.out.println(product.getProd_name());
-        int user_id = userDetails.getId();
-        System.out.println(user_id);
-        return "cart";
+        Product product = productService.findById(prod_id);
+
+        User user = userService.getUserById(userDetails.getId());
+
+        // System.out.println(product.getProd_name());
+        // System.out.println(user.getFirst_name());
+
+        CartItem cartItem = new CartItem();
+        cartItem.setProduct(product);
+        cartItem.setUser(user);
+
+        cartItemService.addToCart(cartItem);
+
+        
+
+
+        return "redirect:/cart";
     }
 }   

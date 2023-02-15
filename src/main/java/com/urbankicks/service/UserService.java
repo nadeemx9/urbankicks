@@ -19,6 +19,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User getUserById(int id)
+    {
+        User user = (User)userRepository.findById(id).get();
+        return user;
+    }
+
     public String encode(String password)
     {
         return bCryptPasswordEncoder.encode(password);
