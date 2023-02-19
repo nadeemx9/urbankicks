@@ -219,8 +219,12 @@ public class MyController {
     }
 
     @RequestMapping("/processCheckout")
-    public String processCheckout()
+    public String processCheckout(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model)
     {
+        User user = userDetails.getUser();
+
+        model.addAttribute("user", user);
+        
         return "checkout";
     }
 }   
