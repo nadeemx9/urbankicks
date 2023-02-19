@@ -1,7 +1,6 @@
 package com.urbankicks.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.Base64;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class MyController {
         model.addAttribute("title", "Cart");
         model.addAttribute("cartItems", cartItems);
 
-        
+        model.addAttribute("subtotal", cartItemService.getSubtotal(cartItems));
         return "cart";
     }
 
@@ -181,9 +180,9 @@ public class MyController {
     }
 
     @RequestMapping("/productDetail")
-    public String productDetail(@RequestParam("id")int id, Model model) throws IOException
+    public String productDetail(@RequestParam("id")int prod_id, Model model) throws IOException
     {
-        Product product = productService.findById(id);
+        Product product = productService.findById(prod_id);
         model.addAttribute("product", product);
         model.addAttribute("title", "Detail");
     
@@ -196,15 +195,18 @@ public class MyController {
         Product product = productService.findById(prod_id);
         product.setSize(Integer.parseInt(size));
         product.setQuantity(Integer.parseInt(quantity));
-        User user = userService.getUserById(userDetails.getId());
-
-
-        CartItem cartItem = new CartItem();
-        cartItem.setProduct(product);
-        cartItem.setUser(user);
-
-        cartItemService.addToCart(cartItem);
-
+        try {
+            User user = userService.getUserById(userDetails.getId());       
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setUser(user);
+    
+            cartItemService.addToCart(cartItem);
+         
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+       
         return "redirect:/cart";
     }
 
@@ -214,5 +216,11 @@ public class MyController {
         CartItem cartItem =(CartItem) cartItemService.findById(cart_item_id);
         cartItemService.removeFromCart(cartItem);
         return "redirect:/cart";
+    }
+
+    @RequestMapping("/processCheckout")
+    public String processCheckout()
+    {
+        return "checkout";
     }
 }   

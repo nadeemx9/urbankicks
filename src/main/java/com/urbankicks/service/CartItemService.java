@@ -13,26 +13,32 @@ public class CartItemService {
 
     @Autowired
     CartItemRepository cartItemRepository;
-    public void addToCart(CartItem cartItem)
-    {
+
+    public void addToCart(CartItem cartItem) {
         cartItemRepository.save(cartItem);
+
     }
 
-    public List<CartItem> getCartItemsByUser(int id)
-    {
-        List<CartItem> cartItems =(List<CartItem>) cartItemRepository.getCartItemsByUser(id);
+    public List<CartItem> getCartItemsByUser(int id) {
+        List<CartItem> cartItems = (List<CartItem>) cartItemRepository.getCartItemsByUser(id);
         return cartItems;
     }
 
-    public CartItem findById(int id)
-    {
+    public CartItem findById(int id) {
         CartItem cartItem = cartItemRepository.findById(id);
         return cartItem;
     }
-    public void removeFromCart(CartItem cartItem)
-    {
+
+    public void removeFromCart(CartItem cartItem) {
         cartItemRepository.delete(cartItem);
     }
 
-    
+    public long getSubtotal(List<CartItem> cartItems) {
+        int total = 0;
+        for (CartItem cartItem : cartItems) {
+            total += cartItem.getProduct().getPrice() * cartItem.getProduct().getQuantity();
+        }
+        return total;
+    }
+
 }
