@@ -5,6 +5,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Brand {
+    
     @Id()
     private String brand_name;
 
