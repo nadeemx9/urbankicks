@@ -1,6 +1,7 @@
 package com.urbankicks.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -25,11 +26,13 @@ import com.urbankicks.config.UserDetailsImpl;
 import com.urbankicks.entities.Brand;
 import com.urbankicks.entities.CartItem;
 import com.urbankicks.entities.Category;
+import com.urbankicks.entities.Orders;
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
 import com.urbankicks.service.CartItemService;
 import com.urbankicks.service.CategoryService;
+import com.urbankicks.service.OrdersService;
 import com.urbankicks.service.ProductService;
 import com.urbankicks.service.UserService;
 
@@ -51,6 +54,9 @@ public class MyController {
 
     @Autowired
     CartItemService cartItemService;
+
+    @Autowired
+    OrdersService ordersService;
 
 
     @GetMapping("/index")
@@ -225,6 +231,40 @@ public class MyController {
 
         model.addAttribute("user", user);
         
+        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        model.addAttribute("cartItems", cartItems);
+
+        long subtotal =  cartItemService.getSubtotal(cartItems);
+        model.addAttribute("subtotal", subtotal);
+        
         return "checkout";
+    }
+
+    @RequestMapping("/processPlaceOrder")
+    public String placeOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model)
+    {
+        User user = userDetails.getUser();
+        
+        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        List<Product> products = new ArrayList<>();
+
+        for (CartItem cartItem : cartItems) {
+            Product product = (Product) productService.findById(cartItem.getProduct().getProd_id());
+            product.setQuantity(cartItem.getProduct().getQuantity());
+            product.setSize(cartItem.getProduct().getSize());
+            products.add(product);
+        }
+
+        Double total = productService.getTotal(products);
+
+        Orders orders = new Orders();
+        orders.setUser(user);
+        orders.setProducts(products);
+        orders.setTotal(total);
+
+        ordersService.placeOrder(orders);        
+
+        System.out.println("ORDER PLACED SUCCESSFULLY!");
+        return "redirect:/processCheckout";
     }
 }   
