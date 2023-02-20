@@ -262,7 +262,6 @@ public class MyController {
         orders.setProducts(products);
         orders.setTotal(total);
 
-        ordersService.placeOrder(orders);        
 
         System.out.println("ORDER PLACED SUCCESSFULLY!");
         return "redirect:/processCheckout";
