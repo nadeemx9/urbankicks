@@ -1,7 +1,6 @@
 package com.urbankicks.controller;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -78,6 +77,8 @@ public class MyController {
 
         Cart cart = cartService.getCartByUser(user_id);
         model.addAttribute("products", cart.getProducts());
+
+        model.addAttribute("total", cartService.getTotal(cart.getProducts()));
 
         return "cart";
     }

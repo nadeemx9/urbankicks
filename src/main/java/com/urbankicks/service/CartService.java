@@ -34,5 +34,15 @@ public class CartService {
         return cart;
     }
 
-    
+    public double getTotal(List<Product> products)
+    {
+        double total = 0;
+        
+        for (Product product : products) {
+            total += product.getPrice() * product.getQuantity();
+            
+        }
+
+        return total;
+    }
 }
