@@ -30,7 +30,6 @@ import com.urbankicks.entities.Orders;
 import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
-import com.urbankicks.service.CartItemService;
 import com.urbankicks.service.CartService;
 import com.urbankicks.service.CategoryService;
 import com.urbankicks.service.OrdersService;
@@ -51,9 +50,6 @@ public class MyController {
 
     @Autowired
     private CategoryService categoryService;
-
-    @Autowired
-    CartItemService cartItemService;
 
     @Autowired
     OrdersService ordersService;
