@@ -15,7 +15,7 @@ public class EmailService {
     {
         SimpleMailMessage message = new SimpleMailMessage();
         
-        message.setFrom("ethicalanonymous333@gmail.com");
+        message.setFrom("urbankicks.ecommerce@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
