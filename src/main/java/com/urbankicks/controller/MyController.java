@@ -39,7 +39,6 @@ import com.urbankicks.service.OrdersService;
 import com.urbankicks.service.ProductService;
 import com.urbankicks.service.UserService;
 
-
 @Controller
 public class MyController {
 
@@ -65,55 +64,51 @@ public class MyController {
     private CartService cartService;
 
     @GetMapping("/index")
-    public String index(Model model)
-    {
+    public String index(Model model) {
         model.addAttribute("title", "UrbanKicks - First Choice");
 
         return "index";
     }
+
     @GetMapping("/cart")
-    public String cart(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {   
+    public String cart(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         int user_id = userDetails.getId();
 
-        model.addAttribute("title", "Cart");  
-        
+        model.addAttribute("title", "Cart");
+
         Cart cart = cartService.getCartByUser(user_id);
         model.addAttribute("products", cart.getProducts());
-        
+
         return "cart";
     }
 
     @GetMapping("/checkout")
-    public String checkout(Model model)
-    {
+    public String checkout(Model model) {
         model.addAttribute("title", "Checkout");
-        
+
         return "checkout";
     }
+
     @GetMapping("/contact")
-    public String contact(Model model)
-    {
+    public String contact(Model model) {
         model.addAttribute("title", "Contact");
 
         return "contact";
     }
+
     @GetMapping("/shop")
-    public String shop(Model model, Product product)
-    {
+    public String shop(Model model, Product product) {
         model.addAttribute("title", "Shop");
-        
-        List<Product>products = productService.findAllProducts();
+
+        List<Product> products = productService.findAllProducts();
 
         model.addAttribute("products", products);
 
-
         return "shop";
     }
-    
+
     @GetMapping("/signup")
-    public String signup(Model model)
-    {
+    public String signup(Model model) {
         model.addAttribute("title", "SignUp");
         model.addAttribute("user", new User());
 
@@ -122,8 +117,7 @@ public class MyController {
 
     // Cart will also created for the user who signed up
     @PostMapping("/signupSubmit")
-    public String signupSubmit(@ModelAttribute User user)
-    {
+    public String signupSubmit(@ModelAttribute User user) {
         user.setPassword(userService.encode(user.getPassword()));
         User savedUser = userService.save(user);
 
@@ -133,13 +127,12 @@ public class MyController {
         cart.setProducts(products);
 
         cartService.addCart(cart);
-        
+
         return "signup";
     }
 
     @RequestMapping("/add-product")
-    public String addProduct(Model model)
-    {
+    public String addProduct(Model model) {
         model.addAttribute("title", "UrbanKicks - Add Products");
         model.addAttribute("brands", brandService.findAllBrands());
         model.addAttribute("categories", categoryService.findAllCategories());
@@ -149,37 +142,34 @@ public class MyController {
     }
 
     @RequestMapping("/login")
-    public String login(@ModelAttribute("user")User user, Model model)
-    {
+    public String login(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("title", "UrbanKicks - Login");
         return "login";
     }
+
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response)
-    {
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         // LOGOUT PROCESS
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){    
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
         return "redirect:index";
     }
 
-
     @PostMapping("/processAddProduct")
-    public String processAddProduct(@RequestParam("prod_name")String prod_name,
-                                    @RequestParam("description")String description,
-                                    @RequestParam("category")String category,
-                                    @RequestParam("brand")String brand,
-                                    @RequestParam("size")String size,
-                                    @RequestParam("gender")String gender,
-                                    @RequestParam("quantity")String quantiy,
-                                    @RequestParam("price")String price,
-                                    @RequestParam("img1")MultipartFile img1,
-                                    @RequestParam("img2")MultipartFile img2,
-                                    @RequestParam("img3")MultipartFile img3) throws IOException
-    {   
+    public String processAddProduct(@RequestParam("prod_name") String prod_name,
+            @RequestParam("description") String description,
+            @RequestParam("category") String category,
+            @RequestParam("brand") String brand,
+            @RequestParam("size") String size,
+            @RequestParam("gender") String gender,
+            @RequestParam("quantity") String quantiy,
+            @RequestParam("price") String price,
+            @RequestParam("img1") MultipartFile img1,
+            @RequestParam("img2") MultipartFile img2,
+            @RequestParam("img3") MultipartFile img3) throws IOException {
         Product product = new Product();
         product.setProd_name(prod_name);
         product.setDescription(description);
@@ -193,54 +183,57 @@ public class MyController {
         product.setImg2(Base64.getEncoder().encodeToString(img2.getBytes()));
         product.setImg3(Base64.getEncoder().encodeToString(img3.getBytes()));
 
-        productService.addProduct(product);         //Image will not insert directly through phpmyadmin
+        productService.addProduct(product); // Image will not insert directly through phpmyadmin
 
         return "redirect:/add-product";
     }
 
     @RequestMapping("/productDetail")
-    public String productDetail(@RequestParam("id")int prod_id, Model model) throws IOException
-    {
+    public String productDetail(@RequestParam("id") int prod_id, Model model) throws IOException {
         Product product = productService.findById(prod_id);
         model.addAttribute("product", product);
         model.addAttribute("title", "Detail");
-    
+
         return "detail";
     }
 
     @RequestMapping("/processAddToCart")
-    public String processAddToCart(@RequestParam("prod_id")int prod_id, @RequestParam("size") String size ,@RequestParam("quantity")String quantity ,Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
+    public String processAddToCart(@RequestParam("prod_id") int prod_id, @RequestParam("size") String size,
+            @RequestParam("quantity") String quantity, Model model,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Product product = productService.findById(prod_id);
         product.setSize(Integer.parseInt(size));
         product.setQuantity(Integer.parseInt(quantity));
 
         try {
-            User user = userService.getUserById(userDetails.getId());       
+            User user = userService.getUserById(userDetails.getId());
 
             Cart cart = cartService.getCartByUser(userDetails.getId());
-            
+
             List<Product> products = new ArrayList<>();
             products.add(product);
             cart.setProducts(products);
 
             cartService.addCart(cart);
-         
+
+        } catch (NullPointerException e) {
+            return "redirect:/cart";
         } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/login";
         }
-       
+
         return "redirect:/cart";
     }
 
     @RequestMapping("/removeFromCart")
-    public String removeFromCart(@RequestParam("prod_id")int prod_id, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {   
+    public String removeFromCart(@RequestParam("prod_id") int prod_id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Cart cart = cartService.getCartByUser(userDetails.getId());
         List<Product> products = cartService.getCartProductsByuser(userDetails.getId());
 
         Product product = productService.findById(prod_id);
-        
+
         products.remove(product);
         cart.setProducts(products);
 
@@ -250,26 +243,24 @@ public class MyController {
     }
 
     @RequestMapping("/processCheckout")
-    public String processCheckout(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model)
-    {
+    public String processCheckout(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User user = userDetails.getUser();
 
         model.addAttribute("user", user);
-        
+
         List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
         model.addAttribute("cartItems", cartItems);
 
-        long subtotal =  cartItemService.getSubtotal(cartItems);
+        long subtotal = cartItemService.getSubtotal(cartItems);
         model.addAttribute("subtotal", subtotal);
-        
+
         return "checkout";
     }
 
     @RequestMapping("/processPlaceOrder")
-    public String placeOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model)
-    {
+    public String placeOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         User user = userDetails.getUser();
-        
+
         List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
         List<Product> products = new ArrayList<>();
 
@@ -287,9 +278,8 @@ public class MyController {
         orders.setProducts(products);
         orders.setTotal(total);
 
-
         System.out.println("ORDER PLACED SUCCESSFULLY!");
         return "redirect:/processCheckout";
     }
 
-}   
+}
