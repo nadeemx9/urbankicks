@@ -275,7 +275,7 @@ public class MyController {
 
         Orders orders = new Orders();
         orders.setUser(userDetails.getUser());
-        orders.setProducts(cartService.getCartProductsByuser(userDetails.getId()));
+        // orders.setProducts(cartService.getCartProductsByuser(userDetails.getId()));
         orders.setTotal(total);
 
 

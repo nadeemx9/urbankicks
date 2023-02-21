@@ -1,14 +1,12 @@
 package com.urbankicks.entities;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 
@@ -23,8 +21,8 @@ public class Orders {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    private List<Product> products;
+    @ManyToOne(cascade = CascadeType.ALL)
+     Cart cart;
 
     private Double total;
     
@@ -46,14 +44,6 @@ public class Orders {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public Double getTotal() {
@@ -80,10 +70,20 @@ public class Orders {
         this.createdAt = createdAt;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     @Override
     public String toString() {
-        return "Orders [order_id=" + order_id + ", user=" + user + ", products=" + products + ", total=" + total
+        return "Orders [order_id=" + order_id + ", user=" + user + ", cart=" + cart + ", total=" + total
                 + ", pymt_method=" + pymt_method + ", createdAt=" + createdAt + "]";
     }
+
+   
 
 }

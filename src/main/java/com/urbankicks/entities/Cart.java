@@ -1,12 +1,15 @@
 package com.urbankicks.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -21,8 +24,8 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user_id;
 
-    @ManyToMany
-    private List<Product> products;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 
     
     public int getCart_id() {
