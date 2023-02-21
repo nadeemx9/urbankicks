@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.urbankicks.config.UserDetailsImpl;
 import com.urbankicks.entities.Brand;
+import com.urbankicks.entities.Cart;
 import com.urbankicks.entities.CartItem;
 import com.urbankicks.entities.Category;
 import com.urbankicks.entities.Orders;
@@ -31,6 +32,7 @@ import com.urbankicks.entities.Product;
 import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
 import com.urbankicks.service.CartItemService;
+import com.urbankicks.service.CartService;
 import com.urbankicks.service.CategoryService;
 import com.urbankicks.service.OrdersService;
 import com.urbankicks.service.ProductService;
@@ -58,6 +60,8 @@ public class MyController {
     @Autowired
     OrdersService ordersService;
 
+    @Autowired
+    private CartService cartService;
 
     @GetMapping("/index")
     public String index(Model model)
@@ -121,6 +125,7 @@ public class MyController {
     {
         user.setPassword(userService.encode(user.getPassword()));
         userService.save(user);
+        
         return "signup";
     }
 
@@ -203,11 +208,20 @@ public class MyController {
         product.setQuantity(Integer.parseInt(quantity));
         try {
             User user = userService.getUserById(userDetails.getId());       
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(product);
-            cartItem.setUser(user);
+            // CartItem cartItem = new CartItem();
+            // cartItem.setProduct(product);
+            // cartItem.setUser(user);
     
-            cartItemService.addToCart(cartItem);
+            // cartItemService.addToCart(cartItem);
+
+            Cart cart = new Cart();
+            cart.setUser_id(user);
+            
+            List<Product> products = new ArrayList<>();
+            products.add(product);
+            cart.setProducts(products);
+
+            cartService.addCart(cart);
          
         } catch (Exception e) {
             return "redirect:/login";
@@ -266,4 +280,5 @@ public class MyController {
         System.out.println("ORDER PLACED SUCCESSFULLY!");
         return "redirect:/processCheckout";
     }
+
 }   
