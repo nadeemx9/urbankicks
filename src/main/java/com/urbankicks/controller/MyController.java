@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.urbankicks.config.UserDetailsImpl;
 import com.urbankicks.entities.Brand;
 import com.urbankicks.entities.Cart;
-import com.urbankicks.entities.CartItem;
 import com.urbankicks.entities.Category;
 import com.urbankicks.entities.Orders;
 import com.urbankicks.entities.Product;
@@ -207,8 +206,6 @@ public class MyController {
         product.setQuantity(Integer.parseInt(quantity));
 
         try {
-            User user = userService.getUserById(userDetails.getId());
-
             Cart cart = cartService.getCartByUser(userDetails.getId());
 
             List<Product> products = cartService.getCartProductsByuser(userDetails.getId());
@@ -249,38 +246,47 @@ public class MyController {
 
         model.addAttribute("user", user);
 
-        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
-        model.addAttribute("cartItems", cartItems);
+        // List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        // model.addAttribute("cartItems", cartItems);
 
-        long subtotal = cartItemService.getSubtotal(cartItems);
-        model.addAttribute("subtotal", subtotal);
+        // long subtotal = cartItemService.getSubtotal(cartItems);
+        // model.addAttribute("subtotal", subtotal);
+
+        Cart cart = cartService.getCartByUser(userDetails.getId());
+        model.addAttribute("cartItems", cart.getProducts());
+
+        model.addAttribute("total", cartService.getTotal(cart.getProducts()));
 
         return "checkout";
     }
 
     @RequestMapping("/processPlaceOrder")
     public String placeOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-        User user = userDetails.getUser();
 
-        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
-        List<Product> products = new ArrayList<>();
+        // List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        // List<Product> products = new ArrayList<>();
 
-        for (CartItem cartItem : cartItems) {
-            Product product = (Product) productService.findById(cartItem.getProduct().getProd_id());
-            product.setQuantity(cartItem.getProduct().getQuantity());
-            product.setSize(cartItem.getProduct().getSize());
-            products.add(product);
-        }
+        // for (CartItem cartItem : cartItems) {
+        //     Product product = (Product) productService.findById(cartItem.getProduct().getProd_id());
+        //     product.setQuantity(cartItem.getProduct().getQuantity());
+        //     product.setSize(cartItem.getProduct().getSize());
+        //     products.add(product);
+        // }
 
-        Double total = productService.getTotal(products);
+        Cart cart = cartService.getCartByUser(userDetails.getId());
+
+        double total = cartService.getTotal(cartService.getCartProductsByuser(userDetails.getId()));
 
         Orders orders = new Orders();
-        orders.setUser(user);
-        orders.setProducts(products);
+        orders.setUser(userDetails.getUser());
+        orders.setProducts(cartService.getCartProductsByuser(userDetails.getId()));
         orders.setTotal(total);
 
+
+        ordersService.placeOrder(orders);
+
         System.out.println("ORDER PLACED SUCCESSFULLY!");
-        return "redirect:/processCheckout";
+        return "redirect:/index";
     }
 
 }
