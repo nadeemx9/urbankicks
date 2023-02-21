@@ -46,19 +46,19 @@
                             </tr>
                         </thead>
                         <tbody class="align-middle">
-                            <tr th:each="cartItem:${cartItems}">
+                            <tr th:each="product:${products}">
                                 <td class="align-middle"><img class="mr-4 ml-0"
-                                        th:src="*{'data:image/*;base64,'+{cartItem.product.img1}}" alt=""
-                                        style="width: 100px; height: 100px;" th:text="${cartItem.product.prod_name}">
+                                        th:src="*{'data:image/*;base64,'+{product.img1}}" alt=""
+                                        style="width: 100px; height: 100px;" th:text="${product.prod_name}">
                                 </td>
-                                <td class="align-middle" th:text="${'₹'+cartItem.product.price}"></td>
-                                <td class="align-middle" th:text="${cartItem.product.quantity}">
+                                <td class="align-middle" th:text="${'₹'+product.price}"></td>
+                                <td class="align-middle" th:text="${product.quantity}">
 
 
                                 </td>
-                                <td class="align-middle" th:text="${cartItem.product.size}"></td>
-                                <td class="align-middle" th:text="${'₹'+cartItem.product.price}"></td>
-                                <td class="align-middle"><a th:href="@{/removeItem(id=${cartItem.cart_item_id})}"
+                                <td class="align-middle" th:text="${product.size}"></td>
+                                <td class="align-middle" th:text="${'₹'+product.price}"></td>
+                                <td class="align-middle"><a th:href="@{/removeFromCart(prod_id=${product.prod_id})}"
                                         class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                             </tr>
                             <!-- DEFAULT CART ITEM -->
@@ -106,10 +106,10 @@
                     <div class="bg-light p-30 mb-5">
                         <form th:action="@{/processCheckout}" method="post">
                             <div class="border-bottom pb-2">
-                                <div class="d-flex justify-content-between mb-3" th:each="cartItem:${cartItems}">
-                                    <h6 th:text="${cartItem.product.prod_name +' ('+ cartItem.product.quantity +')'}">
+                                <div class="d-flex justify-content-between mb-3" th:each="product:${products}">
+                                    <h6 th:text="${product.prod_name +' ('+ product.quantity +')'}">
                                     </h6>
-                                    <h6 th:text="${'₹'+cartItem.product.price * cartItem.product.quantity}"></h6>
+                                    <h6 th:text="${'₹'+product.price * product.quantity}"></h6>
                                 </div>
                                 <div class="d-flex justify-content-between mb-3">
                                     <h6 class="font-weight-medium">Shipping</h6>
@@ -117,14 +117,14 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h6>Subtotal</h6>
-                                    <h6 th:text="${'₹'+subtotal}"></h6>
+                                    <h6 th:text="${'0₹'}"></h6>
                                 </div>
 
                             </div>
                             <div class="pt-2">
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5>Total</h5>
-                                    <h5 th:text="${'₹'+ subtotal}"></h5>
+                                    <h5 th:text="${'0₹'}"></h5>
                                 </div>
                                 <button type="submit" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed
                                     To

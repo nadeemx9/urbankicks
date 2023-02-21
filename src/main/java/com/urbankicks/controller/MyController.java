@@ -1,6 +1,7 @@
 package com.urbankicks.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -72,15 +73,14 @@ public class MyController {
     }
     @GetMapping("/cart")
     public String cart(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails)
-    {
-
+    {   
         int user_id = userDetails.getId();
-        List<CartItem> cartItems = cartItemService.getCartItemsByUser(user_id);
 
-        model.addAttribute("title", "Cart");
-        model.addAttribute("cartItems", cartItems);
-
-        model.addAttribute("subtotal", cartItemService.getSubtotal(cartItems));
+        model.addAttribute("title", "Cart");  
+        
+        Cart cart = cartService.getCartByUser(user_id);
+        model.addAttribute("products", cart.getProducts());
+        
         return "cart";
     }
 
@@ -120,11 +120,19 @@ public class MyController {
         return "signup";
     }
 
+    // Cart will also created for the user who signed up
     @PostMapping("/signupSubmit")
     public String signupSubmit(@ModelAttribute User user)
     {
         user.setPassword(userService.encode(user.getPassword()));
-        userService.save(user);
+        User savedUser = userService.save(user);
+
+        Cart cart = new Cart();
+        cart.setUser_id(savedUser);
+        List<Product> products = new ArrayList<>();
+        cart.setProducts(products);
+
+        cartService.addCart(cart);
         
         return "signup";
     }
@@ -206,16 +214,11 @@ public class MyController {
         Product product = productService.findById(prod_id);
         product.setSize(Integer.parseInt(size));
         product.setQuantity(Integer.parseInt(quantity));
+
         try {
             User user = userService.getUserById(userDetails.getId());       
-            // CartItem cartItem = new CartItem();
-            // cartItem.setProduct(product);
-            // cartItem.setUser(user);
-    
-            // cartItemService.addToCart(cartItem);
 
-            Cart cart = new Cart();
-            cart.setUser_id(user);
+            Cart cart = cartService.getCartByUser(userDetails.getId());
             
             List<Product> products = new ArrayList<>();
             products.add(product);
@@ -230,11 +233,19 @@ public class MyController {
         return "redirect:/cart";
     }
 
-    @RequestMapping("/removeItem")
-    public String removeItem(@RequestParam("id")int cart_item_id)
-    {
-        CartItem cartItem =(CartItem) cartItemService.findById(cart_item_id);
-        cartItemService.removeFromCart(cartItem);
+    @RequestMapping("/removeFromCart")
+    public String removeFromCart(@RequestParam("prod_id")int prod_id, @AuthenticationPrincipal UserDetailsImpl userDetails)
+    {   
+        Cart cart = cartService.getCartByUser(userDetails.getId());
+        List<Product> products = cartService.getCartProductsByuser(userDetails.getId());
+
+        Product product = productService.findById(prod_id);
+        
+        products.remove(product);
+        cart.setProducts(products);
+
+        cartService.addCart(cart);
+
         return "redirect:/cart";
     }
 

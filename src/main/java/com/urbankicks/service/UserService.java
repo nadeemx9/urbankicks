@@ -14,9 +14,9 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void save(User user)
+    public User save(User user)
     {
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUserById(int id)

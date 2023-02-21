@@ -14,14 +14,25 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public void addCart(Cart cart)
+    public Cart addCart(Cart cart)
     {
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
     public List<Product> getCartProductsByuser(int user_id)
     {
+        Cart cart = getCartByUser(user_id);
         
-        return null;
+        List<Product> products = cart.getProducts();
+        return products;
     }
+
+    public Cart getCartByUser(int user_id)
+    {
+        Cart cart = (Cart)cartRepository.getCartByUser(user_id);
+
+        return cart;
+    }
+
+    
 }
