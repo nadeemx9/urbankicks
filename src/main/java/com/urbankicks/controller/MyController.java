@@ -32,6 +32,7 @@ import com.urbankicks.entities.User;
 import com.urbankicks.service.BrandService;
 import com.urbankicks.service.CartService;
 import com.urbankicks.service.CategoryService;
+import com.urbankicks.service.EmailService;
 import com.urbankicks.service.OrdersService;
 import com.urbankicks.service.ProductService;
 import com.urbankicks.service.UserService;
@@ -56,6 +57,9 @@ public class MyController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/index")
     public String index(Model model) {
@@ -281,6 +285,8 @@ public class MyController {
         ordersService.placeOrder(orders);
 
         System.out.println("ORDER PLACED SUCCESSFULLY!");
+
+        emailService.sendEmail(cart.getUser_id().getEmail(), "Test Email", "WELCOME TO URBAN KICKS");
         return "redirect:/index";
     }
 
