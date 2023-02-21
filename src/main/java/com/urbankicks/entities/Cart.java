@@ -25,7 +25,7 @@ public class Cart {
     private User user_id;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
     
     public int getCart_id() {

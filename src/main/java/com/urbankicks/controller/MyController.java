@@ -271,13 +271,12 @@ public class MyController {
 
         Cart cart = cartService.getCartByUser(userDetails.getId());
 
-        double total = cartService.getTotal(cartService.getCartProductsByuser(userDetails.getId()));
+        double total = cartService.getTotal(cart.getProducts());
 
         Orders orders = new Orders();
         orders.setUser(userDetails.getUser());
-        // orders.setProducts(cartService.getCartProductsByuser(userDetails.getId()));
+        orders.setCart(cart);
         orders.setTotal(total);
-
 
         ordersService.placeOrder(orders);
 
