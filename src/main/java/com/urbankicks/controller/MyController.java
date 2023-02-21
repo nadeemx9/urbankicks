@@ -210,7 +210,7 @@ public class MyController {
 
             Cart cart = cartService.getCartByUser(userDetails.getId());
 
-            List<Product> products = new ArrayList<>();
+            List<Product> products = cartService.getCartProductsByuser(userDetails.getId());
             products.add(product);
             cart.setProducts(products);
 
