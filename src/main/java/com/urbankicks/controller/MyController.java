@@ -128,6 +128,8 @@ public class MyController {
 
         cartService.addCart(cart);
 
+        emailService.sendEmail(user.getEmail(), "Greetings From UrbanKicks", "Thank You Registering with UrbanKicks, Keep Shopping with us.");
+
         return "signup";
     }
 
@@ -286,7 +288,7 @@ public class MyController {
 
         System.out.println("ORDER PLACED SUCCESSFULLY!");
 
-        emailService.sendEmail(cart.getUser_id().getEmail(), "Test Email", "WELCOME TO URBAN KICKS");
+        emailService.sendEmail(cart.getUser_id().getEmail(), "ORDER PALCED SUCCESSFULLY", "WELCOME TO URBAN KICKS");
         return "redirect:/index";
     }
 
