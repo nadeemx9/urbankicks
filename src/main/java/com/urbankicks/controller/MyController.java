@@ -165,9 +165,9 @@ public class MyController {
             @RequestParam("description") String description,
             @RequestParam("category") String category,
             @RequestParam("brand") String brand,
-            @RequestParam("size") String size,
+            // @RequestParam("size") String size,
             @RequestParam("gender") String gender,
-            @RequestParam("quantity") String quantiy,
+            // @RequestParam("quantity") String quantiy,
             @RequestParam("price") String price,
             @RequestParam("img1") MultipartFile img1,
             @RequestParam("img2") MultipartFile img2,
@@ -177,9 +177,9 @@ public class MyController {
         product.setDescription(description);
         product.setBrand(new Brand(brand));
         product.setCategory(new Category(category));
-        product.setSize(Integer.parseInt(size));
+        // product.setSize(Integer.parseInt(size));
         product.setGender(gender);
-        product.setQuantity(Integer.parseInt(quantiy));
+        product.setQuantity(0);
         product.setPrice(Double.parseDouble(price));
         product.setImg1(Base64.getEncoder().encodeToString(img1.getBytes()));
         product.setImg2(Base64.getEncoder().encodeToString(img2.getBytes()));
@@ -187,14 +187,14 @@ public class MyController {
 
         productService.addProduct(product); // Image will not insert directly through phpmyadmin
 
-        return "redirect:/add-product";
+        return "redirect:/shop";
     }
 
     @RequestMapping("/productDetail")
     public String productDetail(@RequestParam("id") int prod_id, Model model) throws IOException {
         Product product = productService.findById(prod_id);
         model.addAttribute("product", product);
-        model.addAttribute("title", "Detail");
+        model.addAttribute("title", product.getProd_name());
 
         return "detail";
     }
@@ -204,7 +204,7 @@ public class MyController {
             @RequestParam("quantity") String quantity, Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Product product = productService.findById(prod_id);
-        product.setSize(Integer.parseInt(size));
+        product.setSize(size);
         product.setQuantity(Integer.parseInt(quantity));
 
         try {

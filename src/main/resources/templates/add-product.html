@@ -60,15 +60,15 @@
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-md-4">
                                     <label for="size">SIZE (optional)</label>
-                                    <select id="size" class="form-control" name="size"th:field="${product.size}"> 
-                                        <option selected th:value="${0}">SELECT SIZE</option>
-                                        <option th:value="${6}">6</option>
-                                        <option th:value="${7}">7</option>
-                                        <option th:value="${8}">8</option>
-                                        <option th:value="${9}">9</option>
-                                        <option th:value="${10}">10</option>
-                                        <option th:value="${11}">11</option>
-                                        <option th:value="${12}">12</option>
+                                    <select id="size" class="form-control" name="size" th:field="${product.size}"> 
+                                        <option selected th:value="${''}">SELECT SIZE</option>
+                                        <option th:value="${'6'}">6</option>
+                                        <option th:value="${'7'}">7</option>
+                                        <option th:value="${'8'}">8</option>
+                                        <option th:value="${'9'}">9</option>
+                                        <option th:value="${'10'}">10</option>
+                                        <option th:value="${'11'}">11</option>
+                                        <option th:value="${'12'}">12</option>
                                     </select>
 
                                 </div>
@@ -88,7 +88,7 @@
 
                             <div class="form-row d-flex justify-content-center">
                                 <div class="form-group col-md-4">
-                                    <label for="quantity">QUANTITY</label>
+                                    <label for="quantity">QUANTITY (optional)</label>
                                     <input type="text" class="form-control" id="quantity" name="quantity" th:field="${product.quantity}">
                                 </div>
                                 <div class="form-group col-md-4">

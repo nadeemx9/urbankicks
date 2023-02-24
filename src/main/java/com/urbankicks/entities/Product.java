@@ -32,7 +32,7 @@ public class Product {
     @JoinColumn(name = "brand_name")
     private Brand brand;
 
-    private Integer size;
+    private String size;
     private String gender;
     private Integer quantity;
     private Double price;
@@ -111,16 +111,6 @@ public class Product {
     }
 
 
-    public Integer getSize() {
-        return size;
-    }
-
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-
     public String getGender() {
         return gender;
     }
@@ -187,6 +177,14 @@ public class Product {
                 + ", category=" + category + ", brand=" + brand + ", size=" + size + ", gender=" + gender
                 + ", quantity=" + quantity + ", price=" + price + ", img1=" + img1 + ", img2=" + img2 + ", img3=" + img3
                 + "]";
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
             
 }
