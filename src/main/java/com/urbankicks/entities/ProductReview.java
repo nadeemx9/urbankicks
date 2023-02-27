@@ -57,5 +57,4 @@ public class ProductReview {
                 + ", reviewMsg=" + reviewMsg + "]";
     }
     
-
 }
