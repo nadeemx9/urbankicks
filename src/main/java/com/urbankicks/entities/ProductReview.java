@@ -18,6 +18,10 @@ public class ProductReview {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "prod_id")
+    private Product product;
+
     private String name;
     private String email;
     private String reviewMsg;

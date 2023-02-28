@@ -70,14 +70,20 @@ public class MyController {
 
     @GetMapping("/cart")
     public String cart(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        int user_id = userDetails.getId();
+        try {
+            int user_id = userDetails.getId();
 
-        model.addAttribute("title", "Cart");
+            model.addAttribute("title", "Cart");
 
-        Cart cart = cartService.getCartByUser(user_id);
-        model.addAttribute("products", cart.getProducts());
+            Cart cart = cartService.getCartByUser(user_id);
+            model.addAttribute("products", cart.getProducts());
 
-        model.addAttribute("total", cartService.getTotal(cart.getProducts()));
+            model.addAttribute("total", cartService.getTotal(cart.getProducts()));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "redirect:/login";
+        }
 
         return "cart";
     }
@@ -128,7 +134,8 @@ public class MyController {
 
         cartService.addCart(cart);
 
-        emailService.sendEmail(user.getEmail(), "Greetings From UrbanKicks", "Thank You Registering with UrbanKicks, Keep Shopping with us.");
+        emailService.sendEmail(user.getEmail(), "Greetings From UrbanKicks",
+                "Thank You Registering with UrbanKicks, Keep Shopping with us.");
 
         return "signup";
     }
@@ -199,15 +206,15 @@ public class MyController {
         return "detail";
     }
 
-    @RequestMapping("/processAddToCart")
+    @PostMapping("/processAddToCart")
     public String processAddToCart(@RequestParam("prod_id") int prod_id, @RequestParam("size") String size,
             @RequestParam("quantity") String quantity, Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Product product = productService.findById(prod_id);
-        product.setSize(size);
-        product.setQuantity(Integer.parseInt(quantity));
-
         try {
+            Product product = productService.findById(prod_id);
+            product.setSize(size);
+            product.setQuantity(Integer.parseInt(quantity));
+
             Cart cart = cartService.getCartByUser(userDetails.getId());
 
             List<Product> products = cartService.getCartProductsByuser(userDetails.getId());
@@ -216,11 +223,8 @@ public class MyController {
 
             cartService.addCart(cart);
 
-        } catch (NullPointerException e) {
-            return "redirect:/cart";
         } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/login";
+            System.out.println("ERROR");
         }
 
         return "redirect:/cart";
@@ -248,7 +252,8 @@ public class MyController {
 
         model.addAttribute("user", user);
 
-        // List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        // List<CartItem> cartItems =
+        // cartItemService.getCartItemsByUser(user.getUser_id());
         // model.addAttribute("cartItems", cartItems);
 
         // long subtotal = cartItemService.getSubtotal(cartItems);
@@ -265,14 +270,16 @@ public class MyController {
     @RequestMapping("/processPlaceOrder")
     public String placeOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
 
-        // List<CartItem> cartItems = cartItemService.getCartItemsByUser(user.getUser_id());
+        // List<CartItem> cartItems =
+        // cartItemService.getCartItemsByUser(user.getUser_id());
         // List<Product> products = new ArrayList<>();
 
         // for (CartItem cartItem : cartItems) {
-        //     Product product = (Product) productService.findById(cartItem.getProduct().getProd_id());
-        //     product.setQuantity(cartItem.getProduct().getQuantity());
-        //     product.setSize(cartItem.getProduct().getSize());
-        //     products.add(product);
+        // Product product = (Product)
+        // productService.findById(cartItem.getProduct().getProd_id());
+        // product.setQuantity(cartItem.getProduct().getQuantity());
+        // product.setSize(cartItem.getProduct().getSize());
+        // products.add(product);
         // }
 
         Cart cart = cartService.getCartByUser(userDetails.getId());
