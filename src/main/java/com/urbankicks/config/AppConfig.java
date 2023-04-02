@@ -24,6 +24,7 @@ public class AppConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests()
                 // .antMatchers("/cart").authenticated()
                 .anyRequest().permitAll()
